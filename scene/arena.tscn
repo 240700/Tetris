@@ -1,0 +1,113 @@
+[gd_scene load_steps=7 format=3 uid="uid://dsgf4c4ub16al"]
+
+[ext_resource type="Script" path="res://scene/arena.gd" id="1_yqa3n"]
+[ext_resource type="PackedScene" uid="uid://bb258e3tlyvxr" path="res://scene/play_field.tscn" id="2_ggwo0"]
+[ext_resource type="PackedScene" uid="uid://c8mpctxjui4yx" path="res://scene/active_piece.tscn" id="3_6c1eg"]
+[ext_resource type="PackedScene" uid="uid://ckwtd3i258fuo" path="res://scene/ghost_piece.tscn" id="4_b0buf"]
+[ext_resource type="PackedScene" uid="uid://kiqr27emrd7d" path="res://scene/next_queue.tscn" id="5_6clsc"]
+[ext_resource type="PackedScene" uid="uid://cdwe0hwrnp70o" path="res://scene/hold_piece.tscn" id="6_cn125"]
+
+[node name="Arena" type="Node2D"]
+script = ExtResource("1_yqa3n")
+
+[node name="PlayField" parent="." instance=ExtResource("2_ggwo0")]
+position = Vector2(282, 601)
+
+[node name="GhostPiece" parent="PlayField" node_paths=PackedStringArray("_playfield", "_entity") instance=ExtResource("4_b0buf")]
+_playfield = NodePath("..")
+_entity = NodePath("../ActivePiece")
+
+[node name="ActivePiece" parent="PlayField" node_paths=PackedStringArray("_playfield", "next_queue", "hold_piece") instance=ExtResource("3_6c1eg")]
+_playfield = NodePath("..")
+next_queue = NodePath("../../NextQueue")
+hold_piece = NodePath("../../HoldPiece")
+
+[node name="NextQueue" parent="." instance=ExtResource("5_6clsc")]
+position = Vector2(600, 250)
+scale = Vector2(0.7, 0.7)
+
+[node name="HoldPiece" parent="." instance=ExtResource("6_cn125")]
+position = Vector2(150, 150)
+scale = Vector2(0.7, 0.7)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 593.0
+offset_top = 446.0
+offset_right = 716.0
+offset_bottom = 515.0
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 30
+text = "得分："
+
+[node name="Score" type="Label" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "3"
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+visible = false
+custom_minimum_size = Vector2(600, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "游戏结束"
+
+[node name="Reason" type="Label" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "超出容器"
+
+[node name="Button" type="Button" parent="CanvasLayer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "重来"
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_left = 810.0
+offset_top = 452.0
+offset_right = 878.0
+offset_bottom = 502.0
+theme_override_font_sizes/font_size = 30
+text = "  重 来  "
+
+[connection signal="pressed" from="CanvasLayer/Panel/VBoxContainer/Button" to="." method="restart"]
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="restart"]

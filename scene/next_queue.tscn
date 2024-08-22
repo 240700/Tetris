@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://kiqr27emrd7d"]
+
+[ext_resource type="Script" path="res://scene/next_queue.gd" id="1_m1y56"]
+
+[node name="NextQueue" type="Node2D"]
+script = ExtResource("1_m1y56")

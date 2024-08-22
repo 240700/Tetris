@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bb258e3tlyvxr"]
+
+[ext_resource type="Script" path="res://scene/play_field.gd" id="1_m4st0"]
+
+[node name="PlayField" type="Node2D"]
+script = ExtResource("1_m4st0")
